@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
   final int id;
-  final DateTime createdAt;
+  final String createdAt;
   final String name;
   final String avatar;
 
@@ -13,26 +13,15 @@ class User extends Equatable {
     required this.avatar,
   });
 
+  const User.empty()
+      : id = 1,
+        createdAt = '_empty.created_at',
+        name = '_empty.name',
+        avatar = '_empty.avatar';
+
   @override
   bool get stringify => true;
 
   @override
   List<Object?> get props => [id, createdAt, name, avatar];
-}
-
-void main() {
-  final now = DateTime.now();
-  final user1 = User(
-      id: 1,
-      createdAt: now,
-      name: 'John Doe',
-      avatar: 'https://example.com/avatar.jpg');
-  final user2 = User(
-      id: 1,
-      createdAt: now,
-      name: 'John Doe',
-      avatar: 'https://example.com/avatar.jpg');
-  print(user1);
-  print(user2);
-  print(user1 == user2);
 }
