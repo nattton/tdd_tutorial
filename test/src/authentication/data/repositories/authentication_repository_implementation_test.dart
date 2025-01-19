@@ -5,6 +5,7 @@ import 'package:tdd_tutorial/core/errors/exceptions.dart';
 import 'package:tdd_tutorial/core/errors/failure.dart';
 import 'package:tdd_tutorial/src/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:tdd_tutorial/src/authentication/data/repositories/authentication_repository_implementation.dart';
+import 'package:tdd_tutorial/src/authentication/domain/entities/user.dart';
 
 class MockAuthRemoteDataSrc extends Mock
     implements AuthenticationRemoteDataSource {}
@@ -80,5 +81,44 @@ void main() {
           createdAt: createdAt, name: name, avatar: avatar)).called(1);
       verifyNoMoreInteractions(remoteDataSource);
     });
+  });
+
+  group('getUsers', () {
+    test(
+      'should call the [RemoteDataSource.getUsers] and return [List<User>]'
+      ' when call to remote source is successful',
+      () async {
+        when(() => remoteDataSource.getUsers()).thenAnswer(
+          (_) async => [],
+        );
+
+        final result = await repoImpl.getUsers();
+
+        expect(result, isA<Right<dynamic, List<User>>>());
+        verify(() => remoteDataSource.getUsers()).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+      },
+    );
+
+    test(
+      'should return a [ServerFailure] when the call to the remote'
+      'source is unsuccessful',
+      () async {
+        when(() => remoteDataSource.getUsers()).thenThrow(tException);
+
+        final result = await repoImpl.getUsers();
+
+        expect(
+          result,
+          equals(Left(
+            ApiFailure(
+                message: tException.message, statusCode: tException.statusCode),
+          )),
+        );
+
+        verify(() => remoteDataSource.getUsers()).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+      },
+    );
   });
 }

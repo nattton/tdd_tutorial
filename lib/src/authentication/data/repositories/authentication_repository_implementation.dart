@@ -27,12 +27,17 @@ class AuthenticationRepositoryImplementation
           createdAt: createdAt, name: name, avatar: avatar);
       return const Right(null);
     } on ApiException catch (e) {
-      return Left(ApiFailure(message: e.message, statusCode: e.statusCode));
+      return Left(ApiFailure.fromException(e));
     }
   }
 
   @override
   ResultFuture<List<User>> getUsers() async {
-    throw UnimplementedError();
+    try {
+      final result = await _remoteDataSource.getUsers();
+      return Right(result);
+    } on ApiException catch (e) {
+      return Left(ApiFailure.fromException(e));
+    }
   }
 }
