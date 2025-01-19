@@ -9,6 +9,7 @@ class AddUserDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    nameController.clear();
     return Material(
       type: MaterialType.transparency,
       child: Center(

@@ -18,6 +18,7 @@ class MainApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<AuthenticationCubit>(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
           visualDensity: VisualDensity.adaptivePlatformDensity,
