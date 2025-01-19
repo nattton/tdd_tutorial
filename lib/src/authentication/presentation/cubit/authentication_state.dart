@@ -41,8 +41,8 @@ final class UsersLoaded extends AuthenticationState {
   List<Object> get props => users.map((user) => user.id).toList();
 }
 
-final class AutheticationError extends AuthenticationState {
-  const AutheticationError(this.message);
+final class AuthenticationError extends AuthenticationState {
+  const AuthenticationError(this.message);
 
   final String message;
 
